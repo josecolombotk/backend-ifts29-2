@@ -1,4 +1,4 @@
-# Backend IFTS-29 - Sistema de Gestión Médica
+# Backend IFTS-29 - Sistema de Gestión Médica - Grupo 4
 
 Sistema de gestión médica con estructura MVC (Modelo-Vista-Controlador) desarrollado con Node.js, Express, ES6 Modules y Pug. Permite la administración completa de pacientes, médicos y turnos médicos.
 
