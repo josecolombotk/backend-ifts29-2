@@ -9,7 +9,7 @@ const router = express.Router();
 // Ruta principal - renderizar vista Pug
 router.get('/', (req, res) => {
     res.render('index', {
-        title: 'Backend IFTS-29 API',
+        title: 'Backend IFTS-29 API - Grupo 4',
         message: 'Servidor funcionando correctamente',
         description: 'API REST para gestión médica con base de datos JSON simulada'
     });
