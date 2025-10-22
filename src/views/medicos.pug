@@ -265,14 +265,16 @@ html(lang='es')
           button.submit-button(type='submit') Actualizar Médico
         .result#update-result
       
-      // Formulario Eliminar Médico
-      .form-section#delete-form
-        h3 🗑️ Eliminar Médico
-        .form-group
-          label(for='deleteId') ID del Médico:
-          input(type='number' id='deleteId' name='deleteId' required)
-          button.submit-button(onclick='deleteMedico()') Eliminar Médico
-        .result#delete-result
+  // Formulario Eliminar Médico
+.form-section#delete-form
+  h3 🗑️ Eliminar Médico
+  .form-group
+    label(for='deleteId') ID del Médico:
+    // aceptar string hex de 24 chars (ObjectId)
+    input(type='text' id='deleteId' name='deleteId' required maxlength='24' pattern='[0-9a-fA-F]{24}' placeholder='p.ej. 68f95856ca61e6b1d94f091c')
+    button.submit-button(onclick='deleteMedico()') Eliminar Médico
+  .result#delete-result
+
 
     script.
       function showForm(formType) {
