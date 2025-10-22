@@ -24,10 +24,17 @@ const medicoSchema = new mongoose.Schema({
         minlength: [3, 'La especialidad debe tener al menos 3 caracteres']
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true }, // Importante para que el virtual aparezca en JSON
+    toObject: { virtuals: true }
 });
 
-// Agregar métodos estáticos equivalentes a los del modelo original
+// 🔹 Virtual para IdMedico
+medicoSchema.virtual('IdMedico').get(function () {
+    return this._id.toHexString();
+});
+
+// Métodos estáticos
 medicoSchema.statics.getAll = async function () {
     return await this.find();
 };
@@ -57,19 +64,14 @@ medicoSchema.statics.deleteMedico = async function (id) {
     return medico;
 };
 
-// Búsqueda por DNI
 medicoSchema.statics.getByDNI = async function (dni) {
     return await this.findOne({ DNI: dni });
 };
 
-// Búsqueda por especialidad
 medicoSchema.statics.getByEspecialidad = async function (especialidad) {
-    return await this.find({
-        Especialidad: { $regex: new RegExp(especialidad, 'i') }
-    });
+    return await this.find({ Especialidad: { $regex: new RegExp(especialidad, 'i') } });
 };
 
-// Listar todas las especialidades únicas
 medicoSchema.statics.getEspecialidades = async function () {
     const especialidades = await this.distinct('Especialidad');
     return especialidades.sort();
