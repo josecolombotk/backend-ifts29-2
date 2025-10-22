@@ -30,6 +30,24 @@ html(lang='es')
       .read { background: #3182ce; }
       .update { background: #dd6b20; }
       .delete { background: #e53e3e; }
+
+      /* ✅ NUEVO estilo para el botón volver */
+      .back-button {
+        display: inline-block;
+        background: #718096;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        transition: background 0.3s ease;
+      }
+      .back-button:hover {
+        background: #4a5568;
+        color: white;
+        text-decoration: none;
+      }
+
       form {
         display: flex; flex-direction: column;
         gap: 10px; margin-top: 10px;
@@ -53,6 +71,9 @@ html(lang='es')
 
   body
     .container
+      // ✅ Botón volver agregado
+      a.back-button(href='/') ← Volver al Inicio
+
       h1 🩺 Gestión de Turnos
 
       .buttons
