@@ -1,115 +1,80 @@
-import DatabaseService from './DatabaseService.js';
+import mongoose from 'mongoose';
 
-class Medico {
-    constructor(data) {
-        this.IdMedico = data.IdMedico || null;
-        this.Nombre = data.Nombre;
-        this.Apellido = data.Apellido;
-        this.DNI = data.DNI;
-        this.Especialidad = data.Especialidad;
+// Definición del esquema para la colección "medicos"
+const medicoSchema = new mongoose.Schema({
+    Nombre: {
+        type: String,
+        required: [true, 'El nombre es obligatorio'],
+        minlength: [2, 'El nombre debe tener al menos 2 caracteres']
+    },
+    Apellido: {
+        type: String,
+        required: [true, 'El apellido es obligatorio'],
+        minlength: [2, 'El apellido debe tener al menos 2 caracteres']
+    },
+    DNI: {
+        type: String,
+        required: [true, 'El DNI es obligatorio'],
+        match: [/^\d{7,8}$/, 'El DNI debe tener 7 u 8 dígitos'],
+        unique: true
+    },
+    Especialidad: {
+        type: String,
+        required: [true, 'La especialidad es obligatoria'],
+        minlength: [3, 'La especialidad debe tener al menos 3 caracteres']
     }
+}, {
+    timestamps: true
+});
 
-    // Validar los datos del médico
-    validate() {
-        const errors = [];
+// Agregar métodos estáticos equivalentes a los del modelo original
+medicoSchema.statics.getAll = async function () {
+    return await this.find();
+};
 
-        if (!this.Nombre || this.Nombre.trim().length < 2) {
-            errors.push('El nombre debe tener al menos 2 caracteres');
-        }
+medicoSchema.statics.getById = async function (id) {
+    return await this.findById(id);
+};
 
-        if (!this.Apellido || this.Apellido.trim().length < 2) {
-            errors.push('El apellido debe tener al menos 2 caracteres');
-        }
+medicoSchema.statics.createMedico = async function (data) {
+    const medico = new this(data);
+    return await medico.save();
+};
 
-        if (!this.DNI || !/^\d{7,8}$/.test(this.DNI)) {
-            errors.push('El DNI debe tener 7 u 8 dígitos');
-        }
-
-        if (!this.Especialidad || this.Especialidad.trim().length < 3) {
-            errors.push('La especialidad debe tener al menos 3 caracteres');
-        }
-
-        return {
-            isValid: errors.length === 0,
-            errors
-        };
+medicoSchema.statics.updateMedico = async function (id, data) {
+    const medico = await this.findByIdAndUpdate(id, data, { new: true });
+    if (!medico) {
+        throw new Error('Médico no encontrado');
     }
+    return medico;
+};
 
-    // Convertir a JSON
-    toJSON() {
-        return {
-            IdMedico: this.IdMedico,
-            Nombre: this.Nombre,
-            Apellido: this.Apellido,
-            DNI: this.DNI,
-            Especialidad: this.Especialidad
-        };
+medicoSchema.statics.deleteMedico = async function (id) {
+    const medico = await this.findByIdAndDelete(id);
+    if (!medico) {
+        throw new Error('Médico no encontrado');
     }
+    return medico;
+};
 
-    // Métodos estáticos para operaciones CRUD
-    static async getAll() {
-        return await DatabaseService.getAll('medicos');
-    }
+// Búsqueda por DNI
+medicoSchema.statics.getByDNI = async function (dni) {
+    return await this.findOne({ DNI: dni });
+};
 
-    static async getById(id) {
-        return await DatabaseService.getById('medicos', id);
-    }
+// Búsqueda por especialidad
+medicoSchema.statics.getByEspecialidad = async function (especialidad) {
+    return await this.find({
+        Especialidad: { $regex: new RegExp(especialidad, 'i') }
+    });
+};
 
-    static async create(medicoData) {
-        const medico = new Medico(medicoData);
-        const validation = medico.validate();
-        
-        if (!validation.isValid) {
-            throw new Error(`Datos inválidos: ${validation.errors.join(', ')}`);
-        }
+// Listar todas las especialidades únicas
+medicoSchema.statics.getEspecialidades = async function () {
+    const especialidades = await this.distinct('Especialidad');
+    return especialidades.sort();
+};
 
-        return await DatabaseService.create('medicos', medico.toJSON());
-    }
-
-    static async update(id, medicoData) {
-        const existingMedico = await this.getById(id);
-        if (!existingMedico) {
-            throw new Error('Médico no encontrado');
-        }
-
-        const updatedData = { ...existingMedico, ...medicoData };
-        const medico = new Medico(updatedData);
-        const validation = medico.validate();
-        
-        if (!validation.isValid) {
-            throw new Error(`Datos inválidos: ${validation.errors.join(', ')}`);
-        }
-
-        return await DatabaseService.update('medicos', id, medico.toJSON());
-    }
-
-    static async delete(id) {
-        const existingMedico = await this.getById(id);
-        if (!existingMedico) {
-            throw new Error('Médico no encontrado');
-        }
-
-        return await DatabaseService.delete('medicos', id);
-    }
-
-    // Buscar médicos por DNI
-    static async getByDNI(dni) {
-        const medicos = await this.getAll();
-        return medicos.find(m => m.DNI === dni);
-    }
-
-    // Buscar médicos por especialidad
-    static async getByEspecialidad(especialidad) {
-        const medicos = await this.getAll();
-        return medicos.filter(m => m.Especialidad.toLowerCase().includes(especialidad.toLowerCase()));
-    }
-
-    // Obtener todas las especialidades disponibles
-    static async getEspecialidades() {
-        const medicos = await this.getAll();
-        const especialidades = [...new Set(medicos.map(m => m.Especialidad))];
-        return especialidades.sort();
-    }
-}
-
+// Exportar modelo
+const Medico = mongoose.model('Medico', medicoSchema);
 export default Medico;

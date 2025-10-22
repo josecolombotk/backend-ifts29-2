@@ -1,126 +1,69 @@
-import DatabaseService from './DatabaseService.js';
+import mongoose from 'mongoose';
 
-class Paciente {
-    constructor(data) {
-        this.IdPaciente = data.IdPaciente || null;
-        this.Nombre = data.Nombre;
-        this.Apellido = data.Apellido;
-        this.DNI = data.DNI;
-        this.Edad = data.Edad;
-        this.Sexo = data.Sexo;
-        this.ObraSocial = data.ObraSocial;
-        this.NroAfiliado = data.NroAfiliado;
-    }
+// Esquema Paciente
+const pacienteSchema = new mongoose.Schema({
+  Nombre: {
+    type: String,
+    required: [true, 'El nombre es obligatorio'],
+    minlength: [2, 'El nombre debe tener al menos 2 caracteres']
+  },
+  Apellido: {
+    type: String,
+    required: [true, 'El apellido es obligatorio'],
+    minlength: [2, 'El apellido debe tener al menos 2 caracteres']
+  },
+  DNI: {
+    type: String,
+    required: [true, 'El DNI es obligatorio'],
+    match: [/^\d{7,8}$/, 'El DNI debe tener 7 u 8 dígitos'],
+    unique: true
+  },
+  Telefono: {
+    type: String,
+    default: ''
+  },
+  Email: {
+    type: String,
+    match: [/.+@.+\..+/, 'El email no es válido'],
+    default: ''
+  },
+  FechaNacimiento: {
+    type: Date,
+    required: false
+  }
+}, {
+  timestamps: true
+});
 
-    // Validar los datos del paciente
-    validate() {
-        const errors = [];
+// Métodos estáticos equivalentes
+pacienteSchema.statics.getAll = function () {
+  return this.find();
+};
 
-        if (!this.Nombre || this.Nombre.trim().length < 2) {
-            errors.push('El nombre debe tener al menos 2 caracteres');
-        }
+pacienteSchema.statics.getById = function (id) {
+  return this.findById(id);
+};
 
-        if (!this.Apellido || this.Apellido.trim().length < 2) {
-            errors.push('El apellido debe tener al menos 2 caracteres');
-        }
+pacienteSchema.statics.createPaciente = async function (data) {
+  const paciente = new this(data);
+  return await paciente.save();
+};
 
-        if (!this.DNI || !/^\d{7,8}$/.test(this.DNI)) {
-            errors.push('El DNI debe tener 7 u 8 dígitos');
-        }
+pacienteSchema.statics.updatePaciente = async function (id, data) {
+  const paciente = await this.findByIdAndUpdate(id, data, { new: true });
+  if (!paciente) throw new Error('Paciente no encontrado');
+  return paciente;
+};
 
-        if (!this.Edad || this.Edad < 0 || this.Edad > 120) {
-            errors.push('La edad debe estar entre 0 y 120 años');
-        }
+pacienteSchema.statics.deletePaciente = async function (id) {
+  const paciente = await this.findByIdAndDelete(id);
+  if (!paciente) throw new Error('Paciente no encontrado');
+  return paciente;
+};
 
-        if (!this.Sexo || !['M', 'F'].includes(this.Sexo.toUpperCase())) {
-            errors.push('El sexo debe ser M (Masculino) o F (Femenino)');
-        }
+pacienteSchema.statics.getByDNI = function (dni) {
+  return this.findOne({ DNI: dni });
+};
 
-        if (!this.ObraSocial || this.ObraSocial.trim().length < 2) {
-            errors.push('La obra social es requerida');
-        }
-
-        if (!this.NroAfiliado || this.NroAfiliado.trim().length < 3) {
-            errors.push('El número de afiliado debe tener al menos 3 caracteres');
-        }
-
-        return {
-            isValid: errors.length === 0,
-            errors
-        };
-    }
-
-    // Convertir a JSON
-    toJSON() {
-        return {
-            IdPaciente: this.IdPaciente,
-            Nombre: this.Nombre,
-            Apellido: this.Apellido,
-            DNI: this.DNI,
-            Edad: this.Edad,
-            Sexo: this.Sexo.toUpperCase(),
-            ObraSocial: this.ObraSocial,
-            NroAfiliado: this.NroAfiliado
-        };
-    }
-
-    // Métodos estáticos para operaciones CRUD
-    static async getAll() {
-        return await DatabaseService.getAll('pacientes');
-    }
-
-    static async getById(id) {
-        return await DatabaseService.getById('pacientes', id);
-    }
-
-    static async create(pacienteData) {
-        const paciente = new Paciente(pacienteData);
-        const validation = paciente.validate();
-        
-        if (!validation.isValid) {
-            throw new Error(`Datos inválidos: ${validation.errors.join(', ')}`);
-        }
-
-        return await DatabaseService.create('pacientes', paciente.toJSON());
-    }
-
-    static async update(id, pacienteData) {
-        const existingPaciente = await this.getById(id);
-        if (!existingPaciente) {
-            throw new Error('Paciente no encontrado');
-        }
-
-        const updatedData = { ...existingPaciente, ...pacienteData };
-        const paciente = new Paciente(updatedData);
-        const validation = paciente.validate();
-        
-        if (!validation.isValid) {
-            throw new Error(`Datos inválidos: ${validation.errors.join(', ')}`);
-        }
-
-        return await DatabaseService.update('pacientes', id, paciente.toJSON());
-    }
-
-    static async delete(id) {
-        const existingPaciente = await this.getById(id);
-        if (!existingPaciente) {
-            throw new Error('Paciente no encontrado');
-        }
-
-        return await DatabaseService.delete('pacientes', id);
-    }
-
-    // Buscar pacientes por DNI
-    static async getByDNI(dni) {
-        const pacientes = await this.getAll();
-        return pacientes.find(p => p.DNI === dni);
-    }
-
-    // Buscar pacientes por obra social
-    static async getByObraSocial(obraSocial) {
-        const pacientes = await this.getAll();
-        return pacientes.filter(p => p.ObraSocial.toLowerCase().includes(obraSocial.toLowerCase()));
-    }
-}
-
+const Paciente = mongoose.model('Paciente', pacienteSchema);
 export default Paciente;

@@ -1,7 +1,8 @@
-import { Medico } from '../models/index.js';
+import Medico from '../models/Medico.js';
 
 const medicoController = {
-    // GET /api/medicos - Obtener todos los médicos
+
+    // ✅ GET /api/medicos - Obtener todos los médicos
     async getAll(req, res) {
         try {
             const medicos = await Medico.getAll();
@@ -19,12 +20,12 @@ const medicoController = {
         }
     },
 
-    // GET /api/medicos/:id - Obtener un médico por ID
+    // ✅ GET /api/medicos/:id - Obtener un médico por ID
     async getById(req, res) {
         try {
             const { id } = req.params;
             const medico = await Medico.getById(id);
-            
+
             if (!medico) {
                 return res.status(404).json({
                     success: false,
@@ -45,12 +46,10 @@ const medicoController = {
         }
     },
 
-    // POST /api/medicos - Crear un nuevo médico
+    // ✅ POST /api/medicos - Crear un nuevo médico
     async create(req, res) {
         try {
-            const medicoData = req.body;
-            const nuevoMedico = await Medico.create(medicoData);
-            
+            const nuevoMedico = await Medico.createMedico(req.body);
             res.status(201).json({
                 success: true,
                 message: 'Médico creado exitosamente',
@@ -65,14 +64,12 @@ const medicoController = {
         }
     },
 
-    // PUT /api/medicos/:id - Actualizar un médico
+    // ✅ PUT /api/medicos/:id - Actualizar un médico existente
     async update(req, res) {
         try {
             const { id } = req.params;
-            const medicoData = req.body;
-            
-            const medicoActualizado = await Medico.update(id, medicoData);
-            
+            const medicoActualizado = await Medico.updateMedico(id, req.body);
+
             res.status(200).json({
                 success: true,
                 message: 'Médico actualizado exitosamente',
@@ -85,7 +82,7 @@ const medicoController = {
                     message: error.message
                 });
             }
-            
+
             res.status(400).json({
                 success: false,
                 message: 'Error al actualizar el médico',
@@ -94,24 +91,24 @@ const medicoController = {
         }
     },
 
-    // DELETE /api/medicos/:id - Eliminar un médico
+    // ✅ DELETE /api/medicos/:id - Eliminar un médico
     async delete(req, res) {
         try {
             const { id } = req.params;
-            const eliminado = await Medico.delete(id);
-            
-            if (!eliminado) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'Médico no encontrado'
-                });
-            }
+            await Medico.deleteMedico(id);
 
             res.status(200).json({
                 success: true,
                 message: 'Médico eliminado exitosamente'
             });
         } catch (error) {
+            if (error.message === 'Médico no encontrado') {
+                return res.status(404).json({
+                    success: false,
+                    message: error.message
+                });
+            }
+
             res.status(500).json({
                 success: false,
                 message: 'Error al eliminar el médico',
@@ -120,12 +117,12 @@ const medicoController = {
         }
     },
 
-    // GET /api/medicos/dni/:dni - Buscar médico por DNI
+    // ✅ GET /api/medicos/dni/:dni - Buscar médico por DNI
     async getByDNI(req, res) {
         try {
             const { dni } = req.params;
             const medico = await Medico.getByDNI(dni);
-            
+
             if (!medico) {
                 return res.status(404).json({
                     success: false,
@@ -140,18 +137,18 @@ const medicoController = {
         } catch (error) {
             res.status(500).json({
                 success: false,
-                message: 'Error al buscar el médico',
+                message: 'Error al buscar el médico por DNI',
                 error: error.message
             });
         }
     },
 
-    // GET /api/medicos/especialidad/:especialidad - Buscar médicos por especialidad
+    // ✅ GET /api/medicos/especialidad/:especialidad - Buscar médicos por especialidad
     async getByEspecialidad(req, res) {
         try {
             const { especialidad } = req.params;
             const medicos = await Medico.getByEspecialidad(especialidad);
-            
+
             res.status(200).json({
                 success: true,
                 data: medicos,
@@ -166,11 +163,11 @@ const medicoController = {
         }
     },
 
-    // GET /api/medicos/especialidades - Obtener todas las especialidades disponibles
+    // ✅ GET /api/medicos/especialidades - Obtener todas las especialidades disponibles
     async getEspecialidades(req, res) {
         try {
             const especialidades = await Medico.getEspecialidades();
-            
+
             res.status(200).json({
                 success: true,
                 data: especialidades,

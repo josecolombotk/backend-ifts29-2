@@ -1,4 +1,3 @@
-// Archivo principal para las rutas
 import express from 'express';
 import pacienteRoutes from './pacienteRoutes.js';
 import medicoRoutes from './medicoRoutes.js';
@@ -6,37 +5,35 @@ import turnoRoutes from './turnoRoutes.js';
 
 const router = express.Router();
 
-// Ruta principal - renderizar vista Pug
+/**
+ * Rutas principales del proyecto - Backend IFTS-29
+ * Motor de vistas: Pug
+ * Base de datos: MongoDB (antes JSON)
+ */
+
+// Ruta raíz (renderiza la vista principal)
 router.get('/', (req, res) => {
     res.render('index', {
         title: 'Backend IFTS-29 API - Grupo 4',
         message: 'Servidor funcionando correctamente',
-        description: 'API REST para gestión médica con base de datos JSON simulada'
+        description: 'API REST para gestión médica con MongoDB (migrada desde JSON)'
     });
 });
 
-// Rutas para las vistas de gestión
-router.get('/pacientes', (req, res) => {
-  res.render('pacientes');
-});
+// Vistas individuales
+router.get('/pacientes', (req, res) => res.render('pacientes'));
+router.get('/medicos', (req, res) => res.render('medicos'));
+router.get('/turnos', (req, res) => res.render('turnos'));
 
-router.get('/medicos', (req, res) => {
-  res.render('medicos');
-});
-
-router.get('/turnos', (req, res) => {
-  res.render('turnos');
-});
-
-// Ruta de ejemplo para API
+// Endpoint de diagnóstico (API health check)
 router.get('/api/status', (req, res) => {
     res.json({
         status: 'success',
-        message: 'API funcionando correctamente',
+        message: 'API funcionando correctamente con MongoDB',
         timestamp: new Date().toISOString(),
         viewEngine: 'Pug',
         moduleSystem: 'ES6 Modules',
-        database: 'JSON File Database',
+        database: 'MongoDB',
         endpoints: {
             pacientes: '/api/pacientes',
             medicos: '/api/medicos',
@@ -46,7 +43,7 @@ router.get('/api/status', (req, res) => {
     });
 });
 
-// Rutas de la API
+// Rutas de la API (REST)
 router.use('/api/pacientes', pacienteRoutes);
 router.use('/api/medicos', medicoRoutes);
 router.use('/api/turnos', turnoRoutes);
