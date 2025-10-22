@@ -18,24 +18,30 @@ const pacienteSchema = new mongoose.Schema({
     match: [/^\d{7,8}$/, 'El DNI debe tener 7 u 8 dígitos'],
     unique: true
   },
-  Telefono: {
-    type: String,
-    default: ''
+  Edad: {
+    type: Number,
+    required: [true, 'La edad es obligatoria'],
+    min: [0, 'Edad mínima 0'],
+    max: [120, 'Edad máxima 120']
   },
-  Email: {
+  Sexo: {
     type: String,
-    match: [/.+@.+\..+/, 'El email no es válido'],
-    default: ''
+    enum: ['M', 'F'],
+    required: [true, 'El sexo es obligatorio']
   },
-  FechaNacimiento: {
-    type: Date,
-    required: false
+  ObraSocial: {
+    type: String,
+    required: [true, 'La obra social es obligatoria']
+  },
+  NroAfiliado: {
+    type: String,
+    required: [true, 'El número de afiliado es obligatorio']
   }
 }, {
   timestamps: true
 });
 
-// Métodos estáticos equivalentes
+// Métodos estáticos
 pacienteSchema.statics.getAll = function () {
   return this.find();
 };

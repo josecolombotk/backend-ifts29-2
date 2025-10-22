@@ -39,8 +39,6 @@ html(lang='es')
       }
       .back-button:hover {
         background: #4a5568;
-        color: white;
-        text-decoration: none;
       }
       .actions {
         display: grid;
@@ -61,427 +59,281 @@ html(lang='es')
       }
       .action-button:hover {
         transform: translateY(-2px);
-        color: white;
-        text-decoration: none;
       }
-      .create {
-        background: linear-gradient(135deg, #48bb78, #38a169);
-        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
-      }
-      .create:hover {
-        box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
-      }
-      .read {
-        background: linear-gradient(135deg, #4299e1, #3182ce);
-        box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
-      }
-      .read:hover {
-        box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
-      }
-      .update {
-        background: linear-gradient(135deg, #ed8936, #dd6b20);
-        box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
-      }
-      .update:hover {
-        box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
-      }
-      .delete {
-        background: linear-gradient(135deg, #f56565, #e53e3e);
-        box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
-      }
-      .delete:hover {
-        box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
-      }
-      .icon {
-        font-size: 2em;
-        display: block;
-        margin-bottom: 10px;
-      }
-      .form-section {
-        background: #f7fafc;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-        display: none;
-      }
-      .form-section.active {
-        display: block;
-      }
-      .form-group {
-        margin-bottom: 15px;
-      }
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #2d3748;
-      }
-      .form-group input, .form-group select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #cbd5e0;
-        border-radius: 5px;
-        font-size: 16px;
-      }
-      .form-group input:focus, .form-group select:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      }
-      .submit-button {
-        background: #667eea;
-        color: white;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
-      .submit-button:hover {
-        background: #5a67d8;
-      }
-      .result {
-        background: #edf2f7;
-        padding: 15px;
-        border-radius: 5px;
-        margin-top: 15px;
-        display: none;
-      }
-      .result.success {
-        background: #f0fff4;
-        border-left: 4px solid #48bb78;
-      }
-      .result.error {
-        background: #fed7d7;
-        border-left: 4px solid #f56565;
-      }
+      .create { background: linear-gradient(135deg, #48bb78, #38a169); }
+      .read { background: linear-gradient(135deg, #4299e1, #3182ce); }
+      .update { background: linear-gradient(135deg, #ed8936, #dd6b20); }
+      .delete { background: linear-gradient(135deg, #f56565, #e53e3e); }
+      .icon { font-size: 2em; display: block; margin-bottom: 10px; }
+      .form-section { background: #f7fafc; padding: 20px; border-radius: 10px; margin: 20px 0; display: none; }
+      .form-section.active { display: block; }
+      .form-group { margin-bottom: 15px; }
+      .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #2d3748; }
+      .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 16px; }
+      .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+      .submit-button { background: #667eea; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; transition: background 0.3s ease; }
+      .submit-button:hover { background: #5a67d8; }
+      .result { background: #edf2f7; padding: 15px; border-radius: 5px; margin-top: 15px; display: none; }
+      .result.success { background: #f0fff4; border-left: 4px solid #48bb78; }
+      .result.error { background: #fed7d7; border-left: 4px solid #f56565; }
+
   body
     .container
       a.back-button(href='/') ← Volver al Inicio
-      
       h1 🏥 Gestión de Pacientes
-      
+
       .actions
-        a.action-button.create(href='#' onclick='showForm("create")')
+        a.action-button.create(href='#', onclick='showForm("create")')
           span.icon ➕
           | Crear Paciente
-        
-        a.action-button.read(href='#' onclick='showForm("read")')
+        a.action-button.read(href='#', onclick='showForm("read")')
           span.icon 👁️
           | Consultar Pacientes
-        
-        a.action-button.update(href='#' onclick='showForm("update")')
+        a.action-button.update(href='#', onclick='showForm("update")')
           span.icon ✏️
           | Modificar Paciente
-        
-        a.action-button.delete(href='#' onclick='showForm("delete")')
+        a.action-button.delete(href='#', onclick='showForm("delete")')
           span.icon 🗑️
           | Eliminar Paciente
-      
-      // Formulario Crear Paciente
+
+      // Crear
       .form-section#create-form
         h3 ➕ Crear Nuevo Paciente
         form(onsubmit='createPaciente(event)')
           .form-group
             label(for='nombre') Nombre:
-            input(type='text' id='nombre' name='nombre' required)
+            input(type='text', id='nombre', name='nombre', required)
           .form-group
             label(for='apellido') Apellido:
-            input(type='text' id='apellido' name='apellido' required)
+            input(type='text', id='apellido', name='apellido', required)
           .form-group
             label(for='dni') DNI:
-            input(type='text' id='dni' name='dni' required)
+            input(type='text', id='dni', name='dni', required)
           .form-group
             label(for='edad') Edad:
-            input(type='number' id='edad' name='edad' required min='0' max='120')
+            input(type='number', id='edad', name='edad', required, min='0', max='120')
           .form-group
             label(for='sexo') Sexo:
-            select(id='sexo' name='sexo' required)
+            select(id='sexo', name='sexo', required)
               option(value='') Seleccionar...
               option(value='M') Masculino
               option(value='F') Femenino
           .form-group
             label(for='obraSocial') Obra Social:
-            input(type='text' id='obraSocial' name='obraSocial' required)
+            input(type='text', id='obraSocial', name='obraSocial', required)
           .form-group
             label(for='nroAfiliado') Número de Afiliado:
-            input(type='text' id='nroAfiliado' name='nroAfiliado' required)
+            input(type='text', id='nroAfiliado', name='nroAfiliado', required)
           button.submit-button(type='submit') Crear Paciente
         .result#create-result
-      
-      // Formulario Consultar Pacientes
+
+      // Consultar
       .form-section#read-form
         h3 👁️ Consultar Pacientes
         button.submit-button(onclick='getAllPacientes()') Ver Todos los Pacientes
         .form-group
           label(for='searchDni') Buscar por DNI:
-          input(type='text' id='searchDni' name='searchDni' placeholder='Ingrese DNI')
+          input(type='text', id='searchDni', name='searchDni', placeholder='Ingrese DNI')
           button.submit-button(onclick='getPacienteByDni()') Buscar
         .result#read-result
-      
-      // Formulario Modificar Paciente
+
+      // Modificar
       .form-section#update-form
         h3 ✏️ Modificar Paciente
         .form-group
           label(for='updatePacienteSelect') Seleccionar Paciente:
-          select(id='updatePacienteSelect' name='updatePacienteSelect' required)
+          select(id='updatePacienteSelect', name='updatePacienteSelect', required)
             option(value='') Seleccionar paciente...
           button.submit-button(onclick='loadPacienteData()') Cargar Datos
-        form(onsubmit='updatePaciente(event)' style='display:none' id='update-data-form')
+        form(onsubmit='updatePaciente(event)', style='display:none', id='update-data-form')
           .form-group
             label(for='updateNombre') Nombre:
-            input(type='text' id='updateNombre' name='updateNombre' required)
+            input(type='text', id='updateNombre', name='updateNombre', required)
           .form-group
             label(for='updateApellido') Apellido:
-            input(type='text' id='updateApellido' name='updateApellido' required)
+            input(type='text', id='updateApellido', name='updateApellido', required)
           .form-group
             label(for='updateDni') DNI:
-            input(type='text' id='updateDni' name='updateDni' required)
+            input(type='text', id='updateDni', name='updateDni', required)
           .form-group
             label(for='updateEdad') Edad:
-            input(type='number' id='updateEdad' name='updateEdad' required min='0' max='120')
+            input(type='number', id='updateEdad', name='updateEdad', required, min='0', max='120')
           .form-group
             label(for='updateSexo') Sexo:
-            select(id='updateSexo' name='updateSexo' required)
+            select(id='updateSexo', name='updateSexo', required)
+              option(value='') Seleccionar...
               option(value='M') Masculino
               option(value='F') Femenino
           .form-group
             label(for='updateObraSocial') Obra Social:
-            input(type='text' id='updateObraSocial' name='updateObraSocial' required)
+            input(type='text', id='updateObraSocial', name='updateObraSocial', required)
           .form-group
             label(for='updateNroAfiliado') Número de Afiliado:
-            input(type='text' id='updateNroAfiliado' name='updateNroAfiliado' required)
+            input(type='text', id='updateNroAfiliado', name='updateNroAfiliado', required)
           button.submit-button(type='submit') Actualizar Paciente
         .result#update-result
-      
-      // Formulario Eliminar Paciente
+
+      // Eliminar
       .form-section#delete-form
         h3 🗑️ Eliminar Paciente
         .form-group
           label(for='deleteId') ID del Paciente:
-          input(type='number' id='deleteId' name='deleteId' required)
+          input(type='text', id='deleteId', name='deleteId', required)
           button.submit-button(onclick='deletePaciente()') Eliminar Paciente
         .result#delete-result
 
     script.
       function showForm(formType) {
-        // Ocultar todos los formularios
         const forms = document.querySelectorAll('.form-section');
-        forms.forEach(form => form.classList.remove('active'));
-        
-        // Mostrar el formulario seleccionado
+        forms.forEach(f => f.classList.remove('active'));
         document.getElementById(formType + '-form').classList.add('active');
-        
-        // Cargar pacientes en el desplegable si es el formulario de modificar
-        if (formType === 'update') {
-          loadPacientesDropdown();
-        }
-        
-        // Limpiar resultados
+        if (formType === 'update') loadPacientesDropdown();
         const results = document.querySelectorAll('.result');
-        results.forEach(result => {
-          result.style.display = 'none';
-          result.innerHTML = '';
-        });
+        results.forEach(r => { r.style.display='none'; r.innerHTML=''; });
       }
 
-      function showResult(elementId, message, isSuccess = true) {
+      function showResult(elementId, message, isSuccess=true) {
         const result = document.getElementById(elementId);
         result.innerHTML = message;
         result.className = 'result ' + (isSuccess ? 'success' : 'error');
-        result.style.display = 'block';
+        result.style.display='block';
       }
 
       async function createPaciente(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
+        const fd = new FormData(event.target);
         const data = {
-          Nombre: formData.get('nombre'),
-          Apellido: formData.get('apellido'),
-          DNI: formData.get('dni'),
-          Edad: formData.get('edad'),
-          Sexo: formData.get('sexo'),
-          ObraSocial: formData.get('obraSocial'),
-          NroAfiliado: formData.get('nroAfiliado')
-        }
-        
+          Nombre: fd.get('nombre'),
+          Apellido: fd.get('apellido'),
+          DNI: fd.get('dni'),
+          Edad: Number(fd.get('edad')),
+          Sexo: fd.get('sexo'),
+          ObraSocial: fd.get('obraSocial'),
+          NroAfiliado: fd.get('nroAfiliado')
+        };
         try {
-          const response = await fetch('/api/pacientes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+          const res = await fetch('/api/pacientes', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(data)
           });
-          
-          const result = await response.json();
-          if (response.ok) {
-            showResult('create-result', `✅ Paciente creado exitosamente. ID: ${result.data.IdPaciente}`, true);
+          const result = await res.json();
+          if(res.ok){
+            showResult('create-result', `✅ Paciente creado exitosamente. ID: ${result.data.IdPaciente}`);
             event.target.reset();
-          } else {
-            showResult('create-result', `❌ Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('create-result', `❌ Error de conexión: ${error.message}`, false);
-        }
+          } else showResult('create-result', `❌ Error: ${result.message}`, false);
+        } catch(err){ showResult('create-result', `❌ Error de conexión: ${err.message}`, false); }
       }
 
       async function getAllPacientes() {
         try {
-          const response = await fetch('/api/pacientes');
-          const result = await response.json();
-          
-          if (response.ok) {
-            let html = '<h4>📋 Lista de Pacientes:</h4>';
-            result.data.forEach(paciente => {
-              html += `<p><strong>ID:</strong> ${paciente.IdPaciente} | <strong>Nombre:</strong> ${paciente.Nombre} ${paciente.Apellido} | <strong>DNI:</strong> ${paciente.DNI} | <strong>Obra Social:</strong> ${paciente.ObraSocial}</p>`;
+          const res = await fetch('/api/pacientes');
+          const result = await res.json();
+          if(res.ok){
+            let html='<h4>📋 Lista de Pacientes:</h4>';
+            result.data.forEach(p=>{
+              html+=`<p><strong>ID:</strong> ${p.IdPaciente} | <strong>Nombre:</strong> ${p.Nombre} ${p.Apellido} | <strong>DNI:</strong> ${p.DNI} | <strong>Obra Social:</strong> ${p.ObraSocial}</p>`;
             });
-            showResult('read-result', html, true);
-          } else {
-            showResult('read-result', `❌ Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('read-result', `❌ Error de conexión: ${error.message}`, false);
-        }
+            showResult('read-result', html);
+          } else showResult('read-result', `❌ Error: ${result.message}`, false);
+        } catch(err){ showResult('read-result', `❌ Error de conexión: ${err.message}`, false); }
       }
 
       async function getPacienteByDni() {
-        const dni = document.getElementById('searchDni').value;
-        if (!dni) {
-          showResult('read-result', '❌ Por favor ingrese un DNI', false);
-          return;
-        }
-        
+        const dni=document.getElementById('searchDni').value;
+        if(!dni){ showResult('read-result','❌ Por favor ingrese un DNI',false); return; }
         try {
-          const response = await fetch(`/api/pacientes/dni/${dni}`);
-          const result = await response.json();
-          
-          if (response.ok) {
-            const p = result.data;
-            const html = `<h4>👤 Paciente Encontrado:</h4>
-                         <p><strong>ID:</strong> ${p.IdPaciente}</p>
-                         <p><strong>Nombre:</strong> ${p.Nombre} ${p.Apellido}</p>
-                         <p><strong>DNI:</strong> ${p.DNI}</p>
-                         <p><strong>Edad:</strong> ${p.Edad} años</p>
-                         <p><strong>Sexo:</strong> ${p.Sexo}</p>
-                         <p><strong>Obra Social:</strong> ${p.ObraSocial}</p>
-                         <p><strong>Nro. Afiliado:</strong> ${p.NroAfiliado}</p>`;
-            showResult('read-result', html, true);
-          } else {
-            showResult('read-result', `❌ Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('read-result', `❌ Error de conexión: ${error.message}`, false);
-        }
+          const res=await fetch(`/api/pacientes/dni/${dni}`);
+          const result=await res.json();
+          if(res.ok){
+            const p=result.data;
+            const html=`<h4>👤 Paciente Encontrado:</h4>
+              <p><strong>ID:</strong> ${p.IdPaciente}</p>
+              <p><strong>Nombre:</strong> ${p.Nombre}</p>
+              <p><strong>Apellido:</strong> ${p.Apellido}</p>
+              <p><strong>DNI:</strong> ${p.DNI}</p>
+              <p><strong>Edad:</strong> ${p.Edad || '-'}</p>
+              <p><strong>Sexo:</strong> ${p.Sexo || '-'}</p>
+              <p><strong>Obra Social:</strong> ${p.ObraSocial || '-'}</p>
+              <p><strong>Nro. Afiliado:</strong> ${p.NroAfiliado || '-'}</p>`;
+            showResult('read-result', html,true);
+          } else showResult('read-result', `❌ Error: ${result.message}`, false);
+        } catch(err){ showResult('read-result', `❌ Error de conexión: ${err.message}`, false); }
       }
 
       async function loadPacientesDropdown() {
         try {
-          const response = await fetch('/api/pacientes');
-          const result = await response.json();
-          
-          if (response.ok) {
-            const select = document.getElementById('updatePacienteSelect');
-            select.innerHTML = '<option value="">Seleccionar paciente...</option>';
-            
-            result.data.forEach(paciente => {
-              const option = document.createElement('option');
-              option.value = paciente.IdPaciente;
-              option.textContent = `${paciente.Nombre} ${paciente.Apellido} - DNI: ${paciente.DNI}`;
+          const res=await fetch('/api/pacientes');
+          const result=await res.json();
+          if(res.ok){
+            const select=document.getElementById('updatePacienteSelect');
+            select.innerHTML='<option value="">Seleccionar paciente...</option>';
+            result.data.forEach(p=>{
+              const option=document.createElement('option');
+              option.value=p.IdPaciente;
+              option.textContent=`${p.Nombre} ${p.Apellido} - DNI: ${p.DNI}`;
               select.appendChild(option);
             });
           }
-        } catch (error) {
-          console.error('Error cargando pacientes:', error);
-        }
+        } catch(err){ console.error('Error cargando pacientes:', err); }
       }
 
       async function loadPacienteData() {
-        const id = document.getElementById('updatePacienteSelect').value;
-        if (!id) {
-          showResult('update-result', '❌ Por favor seleccione un paciente', false);
-          return;
-        }
-        
+        const id=document.getElementById('updatePacienteSelect').value;
+        if(!id){ showResult('update-result','❌ Por favor seleccione un paciente',false); return; }
         try {
-          const response = await fetch(`/api/pacientes/${id}`);
-          const result = await response.json();
-          
-          if (response.ok) {
-            const p = result.data;
-            document.getElementById('updateNombre').value = p.Nombre;
-            document.getElementById('updateApellido').value = p.Apellido;
-            document.getElementById('updateDni').value = p.DNI;
-            document.getElementById('updateEdad').value = p.Edad;
-            document.getElementById('updateSexo').value = p.Sexo;
-            document.getElementById('updateObraSocial').value = p.ObraSocial;
-            document.getElementById('updateNroAfiliado').value = p.NroAfiliado;
-            
-            document.getElementById('update-data-form').style.display = 'block';
-            showResult('update-result', '✅ Datos cargados correctamente', true);
-          } else {
-            showResult('update-result', `❌ Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('update-result', `❌ Error de conexión: ${error.message}`, false);
-        }
+          const res=await fetch(`/api/pacientes/${id}`);
+          const result=await res.json();
+          if(res.ok){
+            const p=result.data;
+            document.getElementById('updateNombre').value=p.Nombre;
+            document.getElementById('updateApellido').value=p.Apellido;
+            document.getElementById('updateDni').value=p.DNI;
+            document.getElementById('updateEdad').value=p.Edad;
+            document.getElementById('updateSexo').value=p.Sexo;
+            document.getElementById('updateObraSocial').value=p.ObraSocial;
+            document.getElementById('updateNroAfiliado').value=p.NroAfiliado;
+            document.getElementById('update-data-form').style.display='block';
+            showResult('update-result','✅ Datos cargados correctamente',true);
+          } else showResult('update-result', `❌ Error: ${result.message}`, false);
+        } catch(err){ showResult('update-result', `❌ Error de conexión: ${err.message}`, false); }
       }
 
       async function updatePaciente(event) {
         event.preventDefault();
-        const id = document.getElementById('updatePacienteSelect').value;
-        const formData = new FormData(event.target);
-        const data = {
-          Nombre: formData.get('updateNombre'),
-          Apellido: formData.get('updateApellido'),
-          DNI: formData.get('updateDni'),
-          Edad: formData.get('updateEdad'),
-          Sexo: formData.get('updateSexo'),
-          ObraSocial: formData.get('updateObraSocial'),
-          NroAfiliado: formData.get('updateNroAfiliado')
-        }
-        
+        const id=document.getElementById('updatePacienteSelect').value;
+        const fd=new FormData(event.target);
+        const data={
+          Nombre: fd.get('updateNombre'),
+          Apellido: fd.get('updateApellido'),
+          DNI: fd.get('updateDni'),
+          Edad: Number(fd.get('updateEdad')),
+          Sexo: fd.get('updateSexo'),
+          ObraSocial: fd.get('updateObraSocial'),
+          NroAfiliado: fd.get('updateNroAfiliado')
+        };
         try {
-          const response = await fetch(`/api/pacientes/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+          const res=await fetch(`/api/pacientes/${id}`,{
+            method:'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(data)
           });
-          
-          const result = await response.json();
-          if (response.ok) {
-            showResult('update-result', '✅ Paciente actualizado exitosamente', true);
-          } else {
-            showResult('update-result', `❌ Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('update-result', `❌ Error de conexión: ${error.message}`, false);
-        }
+          const result=await res.json();
+          if(res.ok) showResult('update-result','✅ Paciente actualizado exitosamente',true);
+          else showResult('update-result',`❌ Error: ${result.message}`,false);
+        } catch(err){ showResult('update-result',`❌ Error de conexión: ${err.message}`,false);}
       }
 
       async function deletePaciente() {
-        const id = document.getElementById('deleteId').value;
-        if (!id) {
-          showResult('delete-result', '❌ Por favor ingrese un ID', false);
-          return;
-        }
-        
-        if (!confirm('¿Está seguro de que desea eliminar este paciente?')) {
-          return;
-        }
-        
+        const id=document.getElementById('deleteId').value;
+        if(!id){ showResult('delete-result','❌ Por favor ingrese un ID',false); return; }
+        if(!confirm('¿Está seguro de que desea eliminar este paciente?')) return;
         try {
-          const response = await fetch(`/api/pacientes/${id}`, {
-            method: 'DELETE'
-          });
-          
-          const result = await response.json();
-          if (response.ok) {
-            showResult('delete-result', '✅ Paciente eliminado exitosamente', true);
-            document.getElementById('deleteId').value = '';
-          } else {
-            showResult('delete-result', `❌ Error: ${result.message}`, false);
-          }
-        } catch (error) {
-          showResult('delete-result', `❌ Error de conexión: ${error.message}`, false);
-        }
+          const res=await fetch(`/api/pacientes/${id}`,{ method:'DELETE' });
+          const result=await res.json();
+          if(res.ok){
+            showResult('delete-result','✅ Paciente eliminado exitosamente',true);
+            document.getElementById('deleteId').value='';
+          } else showResult('delete-result',`❌ Error: ${result.message}`,false);
+        } catch(err){ showResult('delete-result',`❌ Error de conexión: ${err.message}`,false);}
       }
