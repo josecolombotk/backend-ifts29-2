@@ -2,7 +2,7 @@ import Medico from '../models/Medico.js';
 
 const medicoController = {
 
-    // ✅ GET /api/medicos - Obtener todos los médicos
+    // GET /api/medicos 
     async getAll(req, res) {
         try {
             const medicos = await Medico.getAll();
@@ -20,7 +20,7 @@ const medicoController = {
         }
     },
 
-    // ✅ GET /api/medicos/:id - Obtener un médico por ID
+    // GET /api/medicos/:id 
     async getById(req, res) {
         try {
             const { id } = req.params;
@@ -46,7 +46,7 @@ const medicoController = {
         }
     },
 
-    // ✅ POST /api/medicos - Crear un nuevo médico
+    // POST /api/medicos
     async create(req, res) {
         try {
             const nuevoMedico = await Medico.createMedico(req.body);
@@ -64,7 +64,7 @@ const medicoController = {
         }
     },
 
-    // ✅ PUT /api/medicos/:id - Actualizar un médico existente
+    // PUT /api/medicos/:id 
     async update(req, res) {
         try {
             const { id } = req.params;
@@ -91,7 +91,7 @@ const medicoController = {
         }
     },
 
-    // ✅ DELETE /api/medicos/:id - Eliminar un médico
+    // DELETE /api/medicos/:id 
     async delete(req, res) {
         try {
             const { id } = req.params;
@@ -117,7 +117,7 @@ const medicoController = {
         }
     },
 
-    // ✅ GET /api/medicos/dni/:dni - Buscar médico por DNI
+    // GET /api/medicos/dni/:dni 
     async getByDNI(req, res) {
         try {
             const { dni } = req.params;
@@ -143,7 +143,7 @@ const medicoController = {
         }
     },
 
-    // ✅ GET /api/medicos/especialidad/:especialidad - Buscar médicos por especialidad
+    //  GET /api/medicos/especialidad/:especialidad 
     async getByEspecialidad(req, res) {
         try {
             const { especialidad } = req.params;
@@ -163,7 +163,7 @@ const medicoController = {
         }
     },
 
-    // ✅ GET /api/medicos/especialidades - Obtener todas las especialidades disponibles
+    // GET /api/medicos/especialidades  
     async getEspecialidades(req, res) {
         try {
             const especialidades = await Medico.getEspecialidades();

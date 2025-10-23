@@ -29,7 +29,7 @@ const medicoSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 });
 
-// 🔹 Virtual para IdMedico
+// Virtual para IdMedico
 medicoSchema.virtual('IdMedico').get(function () {
     return this._id.toHexString();
 });

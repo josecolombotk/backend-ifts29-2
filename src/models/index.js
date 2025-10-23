@@ -1,5 +1,3 @@
-// Exportador de modelos
-// Aquí se importan y exportan todos los modelos de la aplicación
 
 import Paciente from './Paciente.js';
 import Medico from './Medico.js';

@@ -30,8 +30,6 @@ html(lang='es')
       .read { background: #3182ce; }
       .update { background: #dd6b20; }
       .delete { background: #e53e3e; }
-
-      /* ✅ NUEVO estilo para el botón volver */
       .back-button {
         display: inline-block;
         background: #718096;
@@ -189,7 +187,6 @@ html(lang='es')
         } catch (err) { showResult('read-result', '❌ ' + err.message, false); }
       }
 
-      // LOAD TURN FOR UPDATE
       async function loadTurnoData() {
         const id = document.getElementById('updateId').value;
         if (!id) return showResult('update-result', '❌ Ingrese un ID', false);

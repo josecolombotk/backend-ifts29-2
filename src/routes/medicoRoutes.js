@@ -1,4 +1,3 @@
-// routes/medicoRoutes.js
 import express from 'express';
 import medicoController from '../controllers/medicoController.js';
 

@@ -5,13 +5,8 @@ import turnoRoutes from './turnoRoutes.js';
 
 const router = express.Router();
 
-/**
- * Rutas principales del proyecto - Backend IFTS-29
- * Motor de vistas: Pug
- * Base de datos: MongoDB (antes JSON)
- */
 
-// Ruta raíz (renderiza la vista principal)
+// Ruta raíz 
 router.get('/', (req, res) => {
     res.render('index', {
         title: 'Backend IFTS-29 API - Grupo 4',
@@ -25,7 +20,7 @@ router.get('/pacientes', (req, res) => res.render('pacientes'));
 router.get('/medicos', (req, res) => res.render('medicos'));
 router.get('/turnos', (req, res) => res.render('turnos'));
 
-// Endpoint de diagnóstico (API health check)
+// Endpoint de diagnóstico 
 router.get('/api/status', (req, res) => {
     res.json({
         status: 'success',
@@ -43,7 +38,7 @@ router.get('/api/status', (req, res) => {
     });
 });
 
-// Rutas de la API (REST)
+// Rutas de la API
 router.use('/api/pacientes', pacienteRoutes);
 router.use('/api/medicos', medicoRoutes);
 router.use('/api/turnos', turnoRoutes);
